@@ -9,9 +9,9 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Translation")
-@Table(name = "translation")
-public class Translation {
+@Entity(name = "RemainingTranslation")
+@Table(name = "remaining_translation")
+public class RemainingTranslation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,19 +19,12 @@ public class Translation {
             name = "id",
             updatable = false
     )
-    private Long translation_id;
+    private Long remaining_translation_id;
 
     @Column(
-            name = "polish_word",
+            name = "word",
             columnDefinition = "TEXT",
             unique = true
     )
-    private String polishWord;
-
-    @Column(
-            name = "english_word",
-            columnDefinition = "TEXT",
-            unique = true
-    )
-    private String englishWord;
+    private String word;
 }

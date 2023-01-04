@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface TranslationRepository extends JpaRepository<Translation, Long> {
 
     @Query(
-            value = "SELECT * FROM translation WHERE :word in (polish, english)",
+            value = "SELECT * FROM translation WHERE :word in (polish_word, english_word)",
             nativeQuery = true
     )
     Optional<Translation> findTranslationByWord(@Param("word") String word);

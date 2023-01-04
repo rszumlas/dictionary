@@ -22,15 +22,14 @@ class TranslationRepositoryTest {
     void itShouldFindTranslationByWord() {
         // Given
         String word = "kot";
-        Translation translation = new Translation(
-                1L,
-                "kot",
-                "cat"
-        );
+        Translation translation = new Translation(1L, word, "cat");
+
+        underTest.saveAndFlush(translation);
+        LOGGER.info(String.format("Saved translation - %s", translation));
 
         // When
-        underTest.saveAndFlush(translation);
         Optional<Translation> foundTranslation = underTest.findTranslationByWord(word);
+        LOGGER.info(String.format("Retrieved translation through findTranslationByWord - %s", foundTranslation.toString()));
 
         // Then
         assertThat(foundTranslation)
