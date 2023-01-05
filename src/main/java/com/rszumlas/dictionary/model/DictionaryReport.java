@@ -6,7 +6,6 @@ import java.util.Map;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,5 +16,14 @@ public class DictionaryReport {
     private Map<Long, Long> englishWordsLengthCount;
     private Double avgPolishWordLength;
     private Double avgEnglishWordLength;
+
+    @Override
+    public String toString() {
+        return "Word count: " + wordCount +
+                "\n Number of polish words of a particular length (length, quantity): " + polishWordsLengthCount +
+                "\n Number of english words of a particular length (length, quantity): " + englishWordsLengthCount +
+                "\n Average polish word length: " + avgPolishWordLength +
+                "\n Average english word length: " + avgEnglishWordLength;
+    }
 
 }

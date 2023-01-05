@@ -5,8 +5,13 @@ import com.rszumlas.dictionary.model.Translation;
 import com.rszumlas.dictionary.service.TranslationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +30,20 @@ public class TranslationController {
     @GetMapping(path = "word/{word}")
     public String getWordTranslation(@PathVariable("word") String word) {
         return translationService.getWordTranslation(word);
+    }
+
+    @GetMapping(path = "create-pdf")
+    public ResponseEntity<InputStreamResource> createPdf() {
+
+        ByteArrayInputStream pdf = translationService.createPdf();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Disposition", "inline;file=report.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(pdf));
     }
 
     @GetMapping(path = "report")

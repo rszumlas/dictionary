@@ -167,8 +167,8 @@ class TranslationServiceTest {
         // Given
         ArrayList<Translation> translations = new ArrayList<>();
         translations.add(new Translation(1L, "kot", "cat"));
-        translations.add(new Translation(1L, "iść", "go"));
-        translations.add(new Translation(1L, "pies", "dog"));
+        translations.add(new Translation(2L, "iść", "go"));
+        translations.add(new Translation(3L, "pies", "dog"));
 
         Map<Long, Long> polishWordsLengthCount = new TreeMap<>();
         polishWordsLengthCount.put(3L, 2L);

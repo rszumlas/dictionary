@@ -1,5 +1,7 @@
 package com.rszumlas.dictionary.service;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfWriter;
 import com.rszumlas.dictionary.exception.ApiRequestException;
 import com.rszumlas.dictionary.model.DictionaryReport;
 import com.rszumlas.dictionary.model.RemainingTranslation;
@@ -14,7 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -76,6 +81,34 @@ public class TranslationService {
             LOGGER.info(String.format("%s found in english dictionary", word));
         }
         return translatedWord;
+    }
+
+    // createPdf
+    public ByteArrayInputStream createPdf() {
+        LOGGER.info("Pdf creation started");
+
+        String title = "Dictionary Report";
+        String report = getDictionaryReport().toString();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Document document = new Document();
+
+        PdfWriter.getInstance(document, out);
+
+        document.open();
+
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 26);
+        Paragraph titleParagraph = new Paragraph(title, titleFont);
+        titleParagraph.setAlignment(Element.ALIGN_CENTER);
+
+        Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 18);
+        Paragraph paragraph = new Paragraph(report);
+
+        document.add(titleParagraph);
+        document.add(paragraph);
+        document.close();
+
+        return new ByteArrayInputStream(out.toByteArray());
     }
 
     // getDictionaryReport
