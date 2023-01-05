@@ -161,7 +161,6 @@ class TranslationServiceTest {
     }
 
     // getDictionaryReport
-
     @Test
     void itShouldGetDictionaryReport() {
         // Given

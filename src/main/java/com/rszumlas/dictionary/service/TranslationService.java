@@ -87,37 +87,53 @@ public class TranslationService {
 
     // createPdf
     public ByteArrayInputStream createPdf() {
+        
         LOGGER.info("Pdf creation started");
-
         String title = "Dictionary Report";
         String report = getDictionaryReport().toString();
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
         Document document = new Document();
-
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, out);
 
-        document.open();
 
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 26);
-        Paragraph titleParagraph = new Paragraph(title, titleFont);
-        titleParagraph.setAlignment(Element.ALIGN_CENTER);
+        Paragraph titleParagraph = createTitleParagraph(title);
+        Paragraph paragraph = createParagraph(FontFactory.HELVETICA, 18, report);
 
-        Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 18);
-        Paragraph paragraph = new Paragraph(report, paragraphFont);
-
-        document.add(titleParagraph);
-        document.add(paragraph);
-        document.close();
+        addParagraphsToDocument(document, List.of(titleParagraph, paragraph));
 
         return new ByteArrayInputStream(out.toByteArray());
     }
+
+    private Paragraph createTitleParagraph(String title) {
+        Paragraph titleParagraph = createParagraph(FontFactory.HELVETICA_BOLD, 26, title);
+        titleParagraph.setAlignment(Element.ALIGN_CENTER);
+        return titleParagraph;
+    }
+    
+    private Paragraph createParagraph(String helvetica, int size, String report) {
+        Font paragraphFont = FontFactory.getFont(helvetica, size);
+        Paragraph paragraph = new Paragraph(report, paragraphFont);
+        return paragraph;
+    }
+
+    private void addParagraphsToDocument(Document document, List<Paragraph> paragraphs) {
+        document.open();
+        for (Paragraph p : paragraphs) {
+            document.add(p);
+        }
+        document.close();
+    }    
 
     // getDictionaryReport
     public DictionaryReport getDictionaryReport() {
         String polish = "polish";
         String english = "english";
         DictionaryReport report = new DictionaryReport();
+
+        translationRepository.save(new Translation(1L, "kot", "cat"));
+        translationRepository.save(new Translation(2L, "iść", "go"));
+        translationRepository.save(new Translation(3L, "pies", "dog"));
 
         report.setWordCount(translationRepository.count()*2);
         report.setPolishWordsLengthCount(countWordsOfSpecificLength(polish));
