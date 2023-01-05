@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.List;
 import java.util.function.Function;
@@ -102,7 +104,7 @@ public class TranslationService {
         titleParagraph.setAlignment(Element.ALIGN_CENTER);
 
         Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 18);
-        Paragraph paragraph = new Paragraph(report);
+        Paragraph paragraph = new Paragraph(report, paragraphFont);
 
         document.add(titleParagraph);
         document.add(paragraph);
@@ -143,7 +145,7 @@ public class TranslationService {
                 .mapToDouble(a -> a)
                 .average()
                 .getAsDouble();
-
+        averageLength = BigDecimal.valueOf(averageLength).setScale(1, RoundingMode.HALF_EVEN).doubleValue();
         return averageLength;
     }
 

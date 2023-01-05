@@ -189,8 +189,8 @@ class TranslationServiceTest {
                 .hasFieldOrPropertyWithValue("wordCount", 6L)
                 .hasFieldOrPropertyWithValue("polishWordsLengthCount", polishWordsLengthCount)
                 .hasFieldOrPropertyWithValue("englishWordsLengthCount", englishWordsLengthCount)
-                .hasFieldOrPropertyWithValue("avgPolishWordLength", 3.3333333333333335)
-                .hasFieldOrPropertyWithValue("avgEnglishWordLength", 2.6666666666666665);
+                .hasFieldOrPropertyWithValue("avgPolishWordLength", 3.3)
+                .hasFieldOrPropertyWithValue("avgEnglishWordLength", 2.7);
     }
 
     @Test
