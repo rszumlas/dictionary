@@ -80,9 +80,9 @@ public class TranslationService {
 
     // getDictionaryReport
     public DictionaryReport getDictionaryReport() {
-        DictionaryReport report = new DictionaryReport();
         String polish = "polish";
         String english = "english";
+        DictionaryReport report = new DictionaryReport();
 
         report.setWordCount(translationRepository.count()*2);
         report.setPolishWordsLengthCount(countWordsOfSpecificLength(polish));
@@ -129,7 +129,6 @@ public class TranslationService {
 
         return wordsLengths;
     }
-
 
     // getTranslationPage
     public List<Translation> getTranslationPage(Integer page, Integer size) {

@@ -1,6 +1,7 @@
 package com.rszumlas.dictionary.service;
 
 import com.rszumlas.dictionary.exception.ApiRequestException;
+import com.rszumlas.dictionary.model.DictionaryReport;
 import com.rszumlas.dictionary.model.Translation;
 import com.rszumlas.dictionary.repository.RemainingTranslationRepository;
 import com.rszumlas.dictionary.repository.TranslationRepository;
@@ -14,10 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -160,6 +158,104 @@ class TranslationServiceTest {
 
         // Then
         assertEquals(polishWord, translatedWord);
+    }
+
+    // getDictionaryReport
+
+    @Test
+    void itShouldGetDictionaryReport() {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "iść", "go"));
+        translations.add(new Translation(1L, "pies", "dog"));
+
+        Map<Long, Long> polishWordsLengthCount = new TreeMap<>();
+        polishWordsLengthCount.put(3L, 2L);
+        polishWordsLengthCount.put(4L, 1L);
+
+        Map<Long, Long> englishWordsLengthCount = new TreeMap<>();
+        englishWordsLengthCount.put(2L, 1L);
+        englishWordsLengthCount.put(3L, 2L);
+
+        given(translationRepository.count()).willReturn(3L);
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        DictionaryReport report = underTest.getDictionaryReport();
+
+        // Then
+        assertThat(report)
+                .hasFieldOrPropertyWithValue("wordCount", 6L)
+                .hasFieldOrPropertyWithValue("polishWordsLengthCount", polishWordsLengthCount)
+                .hasFieldOrPropertyWithValue("englishWordsLengthCount", englishWordsLengthCount)
+                .hasFieldOrPropertyWithValue("avgPolishWordLength", 3.3333333333333335)
+                .hasFieldOrPropertyWithValue("avgEnglishWordLength", 2.6666666666666665);
+    }
+
+    @Test
+    void itShouldCountWordsOfSpecificLength() {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "iść", "go"));
+        translations.add(new Translation(1L, "pies", "dog"));
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        Map<Long, Long> wordsLengthCount = underTest.countWordsOfSpecificLength("polish");
+
+        // Then
+        assertThat(wordsLengthCount.get(3L)).isEqualTo(2L);
+    }
+
+    @Test
+    void itShouldGiveAverageWordLength() {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "pies", "dog"));
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        Double avgLength = underTest.averageWordLength("polish");
+
+        // Then
+        assertThat(avgLength).isEqualTo(3.5);
+    }
+
+    @Test
+    void itShouldGetEnglishWordsLenList() {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "pies", "dog"));
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        ArrayList<Long> wordsLengths = underTest.getWordsLenListByLanguage("english");
+
+        // Then
+        assertThat(wordsLengths)
+                .hasOnlyElementsOfType(Long.class)
+                .hasSize(translations.size());
+    }
+
+    @Test
+    void itShouldGetPolishWordsLenList() {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "pies", "dog"));
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        ArrayList<Long> wordsLengths = underTest.getWordsLenListByLanguage("polish");
+
+        // Then
+        assertThat(wordsLengths)
+                .hasOnlyElementsOfType(Long.class)
+                .hasSize(translations.size());
     }
 
     // getTranslationPage

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
@@ -49,6 +50,21 @@ class TranslationIntegrationTest {
         // When
         // Then
         mockMvc.perform(get("/api/v1/translation/word/{word}", word))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void itShouldGetDictionaryReport() throws Exception {
+        // Given
+        ArrayList<Translation> translations = new ArrayList<>();
+        translations.add(new Translation(1L, "kot", "cat"));
+        translations.add(new Translation(1L, "iść", "go"));
+        translations.add(new Translation(1L, "pies", "dog"));
+        given(translationRepository.findAll()).willReturn(translations);
+
+        // When
+        // Then
+        mockMvc.perform(get("/api/v1/translation/report"))
                 .andExpect(status().isOk());
     }
 
