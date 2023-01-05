@@ -1,5 +1,6 @@
 package com.rszumlas.dictionary.controller;
 
+import com.rszumlas.dictionary.model.DictionaryReport;
 import com.rszumlas.dictionary.model.Translation;
 import com.rszumlas.dictionary.service.TranslationService;
 import lombok.AllArgsConstructor;
@@ -10,15 +11,25 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("api/v1/translation")
+@RequestMapping("api/v1/translation/")
 @RestController
 public class TranslationController {
 
     private final TranslationService translationService;
 
-    @GetMapping(path = "/word/{word}")
-    public String getTranslation(@PathVariable("word") String word) {
-        return translationService.getTranslation(word);
+    @GetMapping(path = "sentence/{sentence}")
+    public String getSentenceTranslation(@PathVariable("sentence") String sentence) {
+        return translationService.getSentenceTranslation(sentence);
+    }
+
+    @GetMapping(path = "word/{word}")
+    public String getWordTranslation(@PathVariable("word") String word) {
+        return translationService.getWordTranslation(word);
+    }
+
+    @GetMapping(path = "report")
+    public DictionaryReport getDictionaryReport() {
+        return translationService.getDictionaryReport();
     }
 
     @GetMapping(path = "{page}/{size}")
@@ -31,11 +42,6 @@ public class TranslationController {
     public void saveTranslation(@PathVariable("polish-word") String polishWord,
                                 @PathVariable("english-word") String englishWord) {
         translationService.saveTranslation(polishWord, englishWord);
-    }
-
-    @GetMapping(path = "/sentence/{sentence}")
-    public String getSentenceTranslation(@PathVariable("sentence") String sentence) {
-        return translationService.getSentenceTranslation(sentence);
     }
 
 }
