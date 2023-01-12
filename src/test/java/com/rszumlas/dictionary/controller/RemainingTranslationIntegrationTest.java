@@ -40,7 +40,7 @@ class RemainingTranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(get("/api/v1/remaining-translation"))
+        mockMvc.perform(get("/api/v1/remaining-translations"))
                 .andExpect(status().isOk());
     }
 }

@@ -85,8 +85,8 @@ public class TranslationService {
         return translatedWord;
     }
 
-    // createPdf
-    public ByteArrayInputStream createPdf() {
+    // getPdfReport
+    public ByteArrayInputStream getPdfReport() {
         
         LOGGER.info("Pdf creation started");
         String title = "Dictionary Report";

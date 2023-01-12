@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("api/v1/remaining-translation")
+@RequestMapping("api/v1/remaining-translations")
 @RestController
 public class RemainingTranslationController {
 

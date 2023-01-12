@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("api/v1/translation/")
+@RequestMapping("api/v1/translations/")
 @RestController
 public class TranslationController {
 
@@ -49,10 +49,10 @@ public class TranslationController {
                     "    average length of all words (separately for each language),\n" +
                     "    number of words to be completed."
     )
-    @GetMapping(path = "create-pdf")
-    public ResponseEntity<InputStreamResource> createPdf() {
+    @GetMapping(path = "pdf-report")
+    public ResponseEntity<InputStreamResource> getPdfReport() {
 
-        ByteArrayInputStream pdf = translationService.createPdf();
+        ByteArrayInputStream pdf = translationService.getPdfReport();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Content-Disposition", "inline;file=report.pdf");
 

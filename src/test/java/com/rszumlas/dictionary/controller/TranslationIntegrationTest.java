@@ -36,7 +36,7 @@ class TranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(get("/api/v1/translation/sentence/{sentence}", sentence))
+        mockMvc.perform(get("/api/v1/translations/sentence/{sentence}", sentence))
                 .andExpect(status().isOk());
     }
 
@@ -49,7 +49,7 @@ class TranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(get("/api/v1/translation/word/{word}", word))
+        mockMvc.perform(get("/api/v1/translations/word/{word}", word))
                 .andExpect(status().isOk());
     }
 
@@ -64,7 +64,7 @@ class TranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(get("/api/v1/translation/report"))
+        mockMvc.perform(get("/api/v1/translations/report"))
                 .andExpect(status().isOk());
     }
 
@@ -76,7 +76,7 @@ class TranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(get("/api/v1/translation/{page}/{size}", pageRequest.getPageNumber(), pageRequest.getPageSize()))
+        mockMvc.perform(get("/api/v1/translations/{page}/{size}", pageRequest.getPageNumber(), pageRequest.getPageSize()))
                 .andExpect(status().isOk());
     }
 
@@ -88,7 +88,7 @@ class TranslationIntegrationTest {
 
         // When
         // Then
-        mockMvc.perform(post("/api/v1/translation/{polish-word}/{english-word}", polishWord, englishWord))
+        mockMvc.perform(post("/api/v1/translations/{polish-word}/{english-word}", polishWord, englishWord))
                 .andExpect(status().isOk());
     }
 
